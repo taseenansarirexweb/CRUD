@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>STUDENT DETAIL</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid p-2 bg-light">
+        <h1 class="text-info">STUDENT DETAIL</h1>
+    </div>
+    <div class="container-fluid p-2 row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="First name" name="fname" value="">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Last name" name="lname" value="">
+        </div>
+        <div class="col">
+            <input type="email" class="form-control" placeholder="Email" name="email" value="">
+        </div>
+        <button type="button" class="btn btn-outline-primary m-2" onclick="create()">Create</button>
+        <button type="button" class="btn btn-outline-success m-2" name="update">Update</button>
+    </div>
+    <div class="form-outline m-1" style="position: static;">
+        <input type="search" id="search" class="form-control" placeholder="Search Name" onkeyup="search()" />
+    </div>
+    <table class="table table-hover" id="table">
+        <script>
+            let table = `<thead>
+                        <tr>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                            </tr>
+                    </thead>`;
+            let slist = '';
+            let studentDetail = [
+            { "fName": "Rahul", "lName": "Paswan", "email": "rahul@email.com" },
+            { "fName": "Md Taseen", "lName": "Ansari", "email": "taseen@email.com" },
+            { "fName": "Priyanka", "lName": "Kumari", "email": "priyanka@email.com" },
+                                ];
+
+            function select(index) { //This Fucntion is used to seltect the perticular detail
+                console.log(index);
+                fname = studentDetail[index].fName;
+                lname = studentDetail[index].lName;
+                email = studentDetail[index].email;
+                document.getElementsByName('fname')[0].value = fname;
+                document.getElementsByName('lname')[0].value = lname;
+                document.getElementsByName('email')[0].value = email;
+                document.getElementsByName('update')[0].setAttribute("onclick", "update(" + index + ")");
+            }
+            function update(index) { //This function is used to update the existing array
+                ufname = document.getElementsByName('fname')[0].value;
+                ulname = document.getElementsByName('lname')[0].value;
+                uemail = document.getElementsByName('email')[0].value;
+                studentDetail[index].fName = ufname;
+                studentDetail[index].lName = ulname;
+                studentDetail[index].email = uemail;
+                console.log(document.getElementById('body'));
+                console.log(studentDetail);
+                displayData();
+            }
+            function create() { //This function is used to create new object in array
+                ufname = document.getElementsByName('fname')[0].value;
+                ulname = document.getElementsByName('lname')[0].value;
+                uemail = document.getElementsByName('email')[0].value;
+                console.log('yesye')
+                if (ufname !== '' && ulname !== '' && uemail !== '') {
+                    studentDetail.push({ "fName": ufname, "lName": ulname, "email": uemail });
+                }
+                document.getElementsByName('fname')[0].value = '';
+                document.getElementsByName('lname')[0].value = '';
+                document.getElementsByName('email')[0].value = '';
+                displayData();
+            }
+            function del(index) { //This function is used to delete the perticular object from an array.
+                let con = window.confirm("Are you sure!");
+                if (con) {
+                    studentDetail.splice(index, index + 1);
+                    displayData();
+                }
+
+
+            }
+            function displayData() { //This function is used to display all the objects of an array.
+                slist = ''
+                console.log(studentDetail.length)
+                if (studentDetail.length>0) {
+                    for (let i = 0; i < studentDetail.length; i++) {
+                        // if(studentDetail.length<0){
+                        slist += `<tr>
+                                <td>` + studentDetail[i].fName + `</td>
+                                <td>` + studentDetail[i].lName + `</td>
+                                <td>` + studentDetail[i].email + `</td>
+                                <td><button type="button" class="btn btn-danger m-1" onclick="del(` + i + `)">Delete</button>` +
+                            `<button type="button" class="btn btn-warning m-1" onclick="select(` + i + `)"> Select</button>
+                                </td>
+                                </tr>`;
+                    }
+                    document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
+                }
+                else {
+                    slist='';
+                    slist += "<tr><td>Records Not Found</td></tr>";
+                    document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
+                }
+            }
+            function search() {
+                slist = '';
+                query = document.getElementById('search').value.toUpperCase();
+                for (i = 0; i < studentDetail.length; i++) {
+                    if (studentDetail[i].fName.toUpperCase().indexOf(query) > -1) {
+                        slist += `<tr>
+                                <td>` + studentDetail[i].fName + `</td>
+                                <td>` + studentDetail[i].lName + `</td>
+                                <td>` + studentDetail[i].email + `</td>
+                                <td><button type="button" class="btn btn-danger m-1" onclick="del(` + i + `)">Delete</button>` +
+                            `<button type="button" class="btn btn-warning m-1" onclick="select(` + i + `)"> Select</button>
+                                </td>
+                              </tr>`;
+                    }
+                }
+                document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
+            }
+
+
+            displayData();
+
+        </script>
+</body>
+
+</html>
