@@ -98,7 +98,6 @@
 
             }
             function displayData() { //This function is used to display all the objects of an array.
-                slist = ''
                 console.log(studentDetail.length)
                 if (studentDetail.length>0) {
                     for (let i = 0; i < studentDetail.length; i++) {
@@ -133,6 +132,11 @@
                             `<button type="button" class="btn btn-warning m-1" onclick="select(` + i + `)"> Select</button>
                                 </td>
                               </tr>`;
+                    }
+                    else{
+                        slist += "<tr><td>Records Not Found</td></tr>";
+                        break;
+
                     }
                 }
                 document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
