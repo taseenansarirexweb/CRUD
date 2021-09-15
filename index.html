@@ -133,15 +133,12 @@
                                 </td>
                               </tr>`;
                     }
-                    else{
-                        slist += "<tr><td>Records Not Found</td></tr>";
-                        break;
-
-                    }
+                }if(slist==''){
+                    slist += "<tr><td>Records Not Found</td></tr>";
                 }
                 document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
             }
-            function sortup(){
+            function sortup(){  //This function is used to sort the list in Alphabatic asending order.
                 slist = '';
                 fname = [];
                 for(i=0;i<studentDetail.length;i++){
