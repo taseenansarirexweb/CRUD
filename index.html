@@ -39,12 +39,14 @@
         <script>
             let table = `<thead>
                         <tr>
-                            <th>Firstname</th>
+                            <th>Firstname
+                                <button type="button" class="btn btn-link" onclick="sortup()">sort up</button></th>
                             <th>Lastname</th>
                             <th>Email</th>
                             <th>Action</th>
                             </tr>
                     </thead>`;
+            let fname = [];
             let slist = '';
             let studentDetail = [
             { "fName": "Rahul", "lName": "Paswan", "email": "rahul@email.com" },
@@ -134,6 +136,60 @@
                     }
                 }
                 document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
+            }
+            function sortup(){
+                slist = '';
+                fname = [];
+                for(i=0;i<studentDetail.length;i++){
+                    fname.unshift(studentDetail[i].fName.toUpperCase());
+                }
+                
+                fname.sort()
+                for(i=0;i<fname.length;i++){
+                    for(let j=0;j<studentDetail.length;j++){
+                        if(studentDetail[j].fName.toUpperCase().indexOf(fname[i]) > -1){
+                            slist += `<tr>
+                                <td>` + studentDetail[j].fName + `</td>
+                                <td>` + studentDetail[j].lName + `</td>
+                                <td>` + studentDetail[j].email + `</td>
+                                <td><button type="button" class="btn btn-danger m-1" onclick="del(` + i + `)">Delete</button>` +
+                            `<button type="button" class="btn btn-warning m-1" onclick="select(` + i + `)"> Select</button>
+                                </td>
+                              </tr>`;
+
+                        }
+                    }
+            }
+                document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
+                document.getElementsByClassName('btn btn-link')[0].setAttribute("onclick","sortdown()");
+                document.getElementsByClassName('btn btn-link')[0].innerHTML="sort down";
+            }
+            function sortdown(){
+                slist = '';
+                unSortName = [];
+                for(i=0;i<studentDetail.length;i++){
+                    unSortName.unshift(fname[i].toUpperCase());
+                }
+                console.log(unSortName);
+                for(i=0;i<fname.length;i++){
+                    for(let j=0;j<studentDetail.length;j++){
+                        if(studentDetail[j].fName.toUpperCase().indexOf(unSortName[i]) > -1){
+                            slist += `<tr>
+                                <td>` + studentDetail[j].fName + `</td>
+                                <td>` + studentDetail[j].lName + `</td>
+                                <td>` + studentDetail[j].email + `</td>
+                                <td><button type="button" class="btn btn-danger m-1" onclick="del(` + i + `)">Delete</button>` +
+                            `<button type="button" class="btn btn-warning m-1" onclick="select(` + i + `)"> Select</button>
+                                </td>
+                              </tr>`;
+
+                        }
+                    }
+            }   
+                document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
+                document.getElementsByClassName('btn btn-link')[0].setAttribute("onclick","sortup()");
+                document.getElementsByClassName('btn btn-link')[0].innerHTML="sort up";
+                
             }
 
 
