@@ -36,6 +36,9 @@
         <input type="search" id="search" class="form-control" placeholder="Search Name" onkeyup="search()" />
     </div>
     <table class="table table-hover" id="table">
+
+
+
         <script>
             let table = `<thead>
                         <tr>
@@ -53,6 +56,7 @@
             { "fName": "Md Taseen", "lName": "Ansari", "email": "taseen@email.com" },
             { "fName": "Priyanka", "lName": "Kumari", "email": "priyanka@email.com" },
                                 ];
+            let record = [];                    
 
             function select(index) { //This Fucntion is used to seltect the perticular detail
                 console.log(index);
@@ -62,6 +66,9 @@
                 document.getElementsByName('fname')[0].value = fname;
                 document.getElementsByName('lname')[0].value = lname;
                 document.getElementsByName('email')[0].value = email;
+                record.push(fname);
+                record.push(lname);
+                record.push(email);
                 document.getElementsByName('update')[0].setAttribute("onclick", "update(" + index + ")");
             }
             function update(index) { //This function is used to update the existing array
@@ -82,11 +89,16 @@
                 console.log('yesye')
                 if (ufname !== '' && ulname !== '' && uemail !== '') {
                     studentDetail.push({ "fName": ufname, "lName": ulname, "email": uemail });
+                    console.log(studentDetail)
+                    document.getElementsByName('fname')[0].value = '';
+                    document.getElementsByName('lname')[0].value = '';
+                    document.getElementsByName('email')[0].value = '';
+                    displayData();
                 }
-                document.getElementsByName('fname')[0].value = '';
-                document.getElementsByName('lname')[0].value = '';
-                document.getElementsByName('email')[0].value = '';
-                displayData();
+                else{
+                    window.alert("Empty Field");
+                }
+                
             }
             function del(index) { //This function is used to delete the perticular object from an array.
                 let con = window.confirm("Are you sure!");
@@ -98,6 +110,7 @@
 
             }
             function displayData() { //This function is used to display all the objects of an array.
+                slist = '';
                 console.log(studentDetail.length)
                 if (studentDetail.length>0) {
                     for (let i = 0; i < studentDetail.length; i++) {
@@ -119,7 +132,7 @@
                     document.getElementById('table').innerHTML = table + '<tbody id="body">' + slist + '</tbody></table>';
                 }
             }
-            function search() {
+            function search() { //This function is used to search in the list
                 slist = '';
                 query = document.getElementById('search').value.toUpperCase();
                 for (i = 0; i < studentDetail.length; i++) {
@@ -146,6 +159,7 @@
                 }
                 
                 fname.sort()
+                slist='';
                 for(i=0;i<fname.length;i++){
                     for(let j=0;j<studentDetail.length;j++){
                         if(studentDetail[j].fName.toUpperCase().indexOf(fname[i]) > -1){
@@ -165,7 +179,7 @@
                 document.getElementsByClassName('btn btn-link')[0].setAttribute("onclick","sortdown()");
                 document.getElementsByClassName('btn btn-link')[0].innerHTML="sort down";
             }
-            function sortdown(){
+            function sortdown(){ //This function is used to sorting list in decending alphabatic order.
                 slist = '';
                 unSortName = [];
                 for(i=0;i<studentDetail.length;i++){
